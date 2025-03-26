@@ -58,7 +58,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen relative">
       <section className="bg-white dark:bg-gray-900 pt-16 sm:pt-20 md:pt-24">
-        <div className="gap-2 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
+        <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
           <motion.div 
             ref={aboutRef}
             initial="hidden"
@@ -86,6 +86,7 @@ export default function AboutPage() {
             </motion.p>
             <motion.p 
               variants={fadeInUp}
+              className="mb-4"
             >
               When I'm not coding smart contracts or building dApps, I enjoy researching new blockchain protocols, participating in hackathons, and contributing to the blockchain community. I believe in the power of blockchain to create more transparent, secure, and equitable systems across various industries.
             </motion.p>
@@ -95,19 +96,20 @@ export default function AboutPage() {
             initial="hidden"
             animate={imageInView ? "visible" : "hidden"}
             variants={fadeInRight}
-            className="grid grid-cols-1 gap-4 mt-8 lg:mt-0"
+            className="mt-8"
           >
             <motion.div 
-              className="relative w-full h-96"
+              className="relative w-full h-[250px] sm:h-[300px] md:h-[400px] rounded-lg shadow-xl overflow-hidden"
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.3 }}
             >
               <Image
-                className="rounded-lg shadow-xl"
+                className="rounded-lg object-cover"
                 src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2055&q=80"
                 alt="Muhammad Mohsin Saleem - Full Stack Blockchain Developer"
                 fill
-                style={{ objectFit: "cover" }}
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </motion.div>
           </motion.div>
@@ -115,7 +117,7 @@ export default function AboutPage() {
       </section>
 
       <section className="bg-gray-50 dark:bg-gray-800 py-12">
-        <div className="container mx-auto px-4">
+        <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
           <Skills />
         </div>
       </section>

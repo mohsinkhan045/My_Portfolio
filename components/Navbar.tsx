@@ -37,7 +37,7 @@ export default function Navbar() {
 
   return (
     <nav className="navbar-container fixed w-full bg-white dark:bg-gray-900 shadow-sm z-[9999]">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2 sm:p-4">
+      <div className="w-[90%] max-w-4xl flex flex-wrap items-center justify-between mx-auto p-2 sm:p-4">
         <Link href="/" className="flex items-center">
           <span className="self-center text-lg sm:text-xl font-semibold whitespace-nowrap dark:text-white">
             Muhammad Mohsin Saleem
@@ -87,7 +87,7 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.2 }}
-              className="items-center justify-between w-full md:hidden absolute top-full left-0 bg-white dark:bg-gray-900 z-[9999]"
+              className="items-center justify-between w-[90%] max-w-4xl mx-auto md:hidden absolute top-full left-1/2 -translate-x-1/2 bg-white dark:bg-gray-900 z-[9999]"
             >
               <ul className="flex flex-col p-2 mt-2 font-medium border border-gray-100 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
                 {navLinks.map((link) => (
