@@ -58,7 +58,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen relative">
       <section className="bg-white dark:bg-gray-900 pt-16 sm:pt-20 md:pt-24">
-        <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
+        <div className="gap-2 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
           <motion.div 
             ref={aboutRef}
             initial="hidden"
