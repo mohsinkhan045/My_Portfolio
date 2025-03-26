@@ -50,7 +50,7 @@ export default function ResumePage() {
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="/resume/MOHSIN.pdf"
+              href="/resume/Mohsin.pdf"
               download
               target="_blank"
               className="inline-flex items-center px-5 py-3 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
@@ -72,7 +72,7 @@ export default function ResumePage() {
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="/resume/MOHSIN.pdf"
+              href="/resume/Mohsin.pdf"
               target="_blank"
               className="inline-flex items-center px-5 py-3 text-base font-medium text-center text-white rounded-lg bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-900"
             >
