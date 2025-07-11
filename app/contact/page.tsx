@@ -34,7 +34,7 @@ export default function ContactPage() {
                   <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
                 </svg>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Email</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">gmail</h3>
                   <p className="text-gray-600 dark:text-gray-400">ms0547884@gmail.com</p>
                 </div>
               </div>

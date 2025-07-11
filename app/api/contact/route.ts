@@ -37,7 +37,8 @@ export async function POST(request: Request) {
         return NextResponse.json(
           { 
             message: 'Message received. Thank you for contacting us.',
-            messageId
+            messageId,
+            error: 'Email not configured'
           }, 
           { status: 200 }
         );
@@ -46,7 +47,8 @@ export async function POST(request: Request) {
           { 
             message: 'Message received. Email delivery is not configured, but your message has been saved.',
             to: config.email.recipient,
-            messageId
+            messageId,
+            error: 'Email not configured - check server logs for setup instructions'
           }, 
           { status: 200 }
         );
@@ -54,7 +56,7 @@ export async function POST(request: Request) {
     }
 
     try {
-      // Create a new transporter for each request - use OAuth2
+      // Create a new transporter for each request
       const transporter = nodemailer.createTransport({
         service: config.email.service,
         auth: {
@@ -72,7 +74,7 @@ export async function POST(request: Request) {
 
       // Create email options with specific formatting
       const mailOptions = {
-        from: `"Portfolio Contact Form" <${config.email.user}>`, // Format the from field properly
+        from: `"Portfolio Contact Form" <${config.email.user}>`,
         replyTo: email, // Set reply-to as the visitor's email
         to: config.email.recipient,
         subject: `Contact Form: ${subject}`,
@@ -102,7 +104,8 @@ ${message}
       // Return success
       return NextResponse.json({ 
         message: 'Message sent successfully! Thank you for contacting us.',
-        success: true 
+        success: true,
+        messageId
       });
     } catch (error: any) {
       // Log error only in development
@@ -129,12 +132,16 @@ ${message}
         if (process.env.NODE_ENV === 'production') {
           return NextResponse.json({ 
             message: 'Thank you for your message. We will get back to you soon.',
-            success: false
+            success: false,
+            messageId,
+            error: 'Email authentication failed'
           });
         } else {
           return NextResponse.json({ 
             message: 'Message saved but email delivery failed. Gmail requires an App Password - please check server logs.',
-            success: false
+            success: false,
+            messageId,
+            error: 'Gmail authentication failed - need App Password'
           });
         }
       }
@@ -143,12 +150,16 @@ ${message}
       if (process.env.NODE_ENV === 'production') {
         return NextResponse.json({ 
           message: 'Thank you for your message. We will get back to you soon.',
-          success: false 
+          success: false,
+          messageId,
+          error: 'Email delivery failed'
         });
       } else {
         return NextResponse.json({ 
           message: 'Message saved but email delivery failed. Please check server logs.',
-          success: false
+          success: false,
+          messageId,
+          error: 'Email delivery failed'
         });
       }
     }

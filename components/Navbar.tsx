@@ -1,13 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   // Close menu when route changes
   useEffect(() => {
@@ -34,6 +35,12 @@ export default function Navbar() {
     { href: "/skills", label: "Skills" },
     { href: "/resume", label: "Resume" },
   ];
+
+  const handleNavClick = (href: string) => {
+    console.log('Navigating to:', href);
+    setIsMenuOpen(false);
+    router.push(href);
+  };
 
   return (
     <nav className="navbar-container fixed w-full bg-white dark:bg-gray-900 shadow-sm z-[9999]">
@@ -68,11 +75,12 @@ export default function Navbar() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`text-sm hover:text-blue-700 dark:hover:text-blue-500 ${
+                  className={`text-sm hover:text-blue-700 dark:hover:text-blue-500 transition-colors duration-200 ${
                     pathname === link.href
                       ? "text-blue-700 dark:text-blue-500"
                       : "text-gray-900 dark:text-white"
                   }`}
+                  onClick={() => console.log('Desktop nav clicked:', link.href)}
                 >
                   {link.label}
                 </Link>
@@ -94,11 +102,15 @@ export default function Navbar() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className={`block py-2 px-3 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                      className={`block py-2 px-3 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 ${
                         pathname === link.href
                           ? "text-blue-700 dark:text-blue-500"
                           : "text-gray-900 dark:text-white"
                       }`}
+                      onClick={() => {
+                        console.log('Mobile nav clicked:', link.href);
+                        setIsMenuOpen(false);
+                      }}
                     >
                       {link.label}
                     </Link>
@@ -107,7 +119,11 @@ export default function Navbar() {
                 <li>
                   <Link
                     href="/contact"
-                    className="block py-2 px-3 text-sm rounded hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    className="block py-2 px-3 text-sm rounded hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 transition-colors duration-200"
+                    onClick={() => {
+                      console.log('Mobile contact clicked');
+                      setIsMenuOpen(false);
+                    }}
                   >
                     Contact Me
                   </Link>

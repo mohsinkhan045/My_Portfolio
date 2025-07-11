@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Muhammad Mohsin Saleem | Full Stack Blockchain Developer",
@@ -41,7 +42,7 @@ export default function Home() {
             ))}
           </div>
           <div className="text-center mt-8 sm:mt-12">
-            <a
+            <Link
               href="/projects"
               className="inline-flex items-center px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
@@ -58,7 +59,7 @@ export default function Home() {
                   clipRule="evenodd"
                 ></path>
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
       </section>

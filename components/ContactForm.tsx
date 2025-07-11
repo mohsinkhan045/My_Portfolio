@@ -65,7 +65,7 @@ export default function ContactForm() {
         
         // If there was an error with email delivery but the message was still saved
         if (data.error) {
-          setErrorMessage(`Note: There was an issue sending the email (${data.error}), but your message has been saved and we'll still receive it.`);
+          setErrorMessage(`Note: ${data.error}. Your message has been saved and we'll still receive it.`);
         }
       } else {
         // Server returned an error
@@ -85,6 +85,10 @@ export default function ContactForm() {
       <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
         Send Message
       </h2>
+      
+      {/* Email Setup Notice */}
+      {/* Removed email setup required message as per user request */}
+      
       {submitSuccess && (
         <div className="p-4 mb-6 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400">
           <span className="font-medium">Success!</span> Your message has been

@@ -42,7 +42,7 @@ Follow these steps to deploy your portfolio on Netlify with proper email functio
    - Add the following environment variables:
      - `EMAIL_SERVICE`: `gmail`
      - `EMAIL_USER`: `ms0547884@gmail.com` (or your email)
-     - `EMAIL_PASS`: Your 16-character Gmail App Password
+     - `EMAIL_PASS`:lvas myzl tfra pjzv
      - `NEXT_PUBLIC_SITE_URL`: Your Netlify site URL (e.g., https://your-site.netlify.app)
 
 6. Trigger a new deploy

@@ -50,7 +50,7 @@ export default function ResumePage() {
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="/resume/Mohsin.pdf"
+              href="/resume/MSKhan.pdf"
               download
               target="_blank"
               className="inline-flex items-center px-5 py-3 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
@@ -72,7 +72,7 @@ export default function ResumePage() {
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="/resume/Mohsin.pdf"
+              href="/resume/MSKhan.pdf"
               target="_blank"
               className="inline-flex items-center px-5 py-3 text-base font-medium text-center text-white rounded-lg bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-900"
             >
@@ -117,6 +117,74 @@ export default function ResumePage() {
               className="border-l-2 border-gray-200 dark:border-gray-700 pl-5 mb-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+              whileHover={{ x: 5, borderColor: "#3b82f6" }}
+            >
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                Blockchain Engineer
+              </h3>
+              <p className="text-sm font-semibold text-blue-600 dark:text-blue-500 mb-1">
+                AAM TECH HUB | 07/05/2025 - Current
+              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                Multan, Pakistan
+              </p>
+              <p className="text-gray-900 dark:text-white font-semibold mb-1">Responsibilities:</p>
+              <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 mb-2">
+                <li>
+                  Developed smart contract logic for AAM Token payments within the AAM ecosystem
+                </li>
+                <li>
+                  Worked on a custodial wallet system to securely manage user assets on-chain
+                </li>
+                <li>
+                  Contributed to wallet-side asset handling, including on-chain transaction signing and storage
+                </li>
+                <li>
+                  Designed token transaction flow and implemented core contract-based fund management
+                </li>
+                <li>
+                  Participated in the architecture of AAM Token integration with a centralized exchange
+                </li>
+                <li>
+                  Ensured secure handling of user funds and transactions using blockchain best practices
+                </li>
+              </ul>
+
+              <p className="text-gray-900 dark:text-white font-semibold mb-1">Key Projects:</p>
+              <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 mb-2">
+                <li>
+                  <span className="font-medium">AAM Token Payments</span> – On-chain payment logic for token-based purchases
+                </li>
+                <li>
+                  <span className="font-medium">AAM Custodial Wallet</span> – Asset handling and transaction flow on blockchain
+                </li>
+                <li>
+                  <span className="font-medium">AAM Exchange (Ongoing)</span> – Smart contract logic and fund management integration
+                </li>
+              </ul>
+
+              <p className="text-gray-900 dark:text-white font-semibold mb-1">Tech Stack:</p>
+              <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 mb-2">
+                <li>
+                  <span className="font-medium">Blockchain:</span> Ethereum, BSC, Polygon (ERC-20)
+                </li>
+                <li>
+                  <span className="font-medium">Smart Contracts:</span> Solidity
+                </li>
+                <li>
+                  <span className="font-medium">Tools:</span> Hardhat, Remix, Ethers.js (for testing only)
+                </li>
+                <li>
+                  <span className="font-medium">Security:</span> On-chain fund management, transaction validation, role-based permissions
+                </li>
+              </ul>
+            </motion.div>
+
+            <motion.div 
+              className="border-l-2 border-gray-200 dark:border-gray-700 pl-5 mb-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.5 }}
               whileHover={{ x: 5, borderColor: "#3b82f6" }}
             >
@@ -124,7 +192,7 @@ export default function ResumePage() {
                 Blockchain Engineer
               </h3>
               <p className="text-sm font-semibold text-blue-600 dark:text-blue-500 mb-1">
-                Octaloop Technologies | 03/12/2024 - Present
+                Octaloop Technologies | 03/12/2024 - 27/03/2025
               </p>
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                 Islamabad, Pakistan

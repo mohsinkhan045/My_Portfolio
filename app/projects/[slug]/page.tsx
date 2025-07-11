@@ -5,7 +5,7 @@ import { projects } from "@/data/projects";
 import { Metadata, ResolvingMetadata } from "next";
 
 type PageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
   searchParams: Record<string, string | string[] | undefined>;
 };
 
@@ -19,7 +19,8 @@ export async function generateMetadata(
   { params }: PageProps,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const project = projects.find((p) => p.slug === params.slug);
+  const { slug } = await params;
+  const project = projects.find((p) => p.slug === slug);
   
   if (!project) {
     return {
@@ -39,8 +40,9 @@ export async function generateMetadata(
   };
 }
 
-export default function ProjectPage({ params }: PageProps) {
-  const project = projects.find((p) => p.slug === params.slug);
+export default async function ProjectPage({ params }: PageProps) {
+  const { slug } = await params;
+  const project = projects.find((p) => p.slug === slug);
 
   if (!project) {
     notFound();
@@ -48,7 +50,7 @@ export default function ProjectPage({ params }: PageProps) {
 
   // Get 3 random projects different from the current one
   const relatedProjects = projects
-    .filter((p) => p.slug !== params.slug)
+    .filter((p) => p.slug !== slug)
     .sort(() => 0.5 - Math.random())
     .slice(0, 3);
 
