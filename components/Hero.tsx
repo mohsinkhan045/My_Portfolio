@@ -93,7 +93,7 @@ export default function Hero() {
               transition={{ duration: 0.3 }}
             >
               <Image
-                src="/images/Home.webp"
+                src="/images/Mohsin.jpeg"
                 alt="Muhammad Mohsin Saleem - Full Stack Blockchain Developer"
                 fill
                 className="rounded-lg object-cover"
