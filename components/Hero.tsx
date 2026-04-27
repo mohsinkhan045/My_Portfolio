@@ -7,7 +7,7 @@ import { profile } from "@/data/profile";
 /** Above-the-fold: no scroll/mount gating so LCP and first paint stay fast. */
 export default function Hero() {
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-x-clip">
       <div
         className="pointer-events-none absolute -left-32 top-24 h-72 w-72 rounded-full bg-blue-500/15 blur-3xl dark:bg-blue-500/20"
         aria-hidden
@@ -19,29 +19,29 @@ export default function Hero() {
 
       <section className="relative">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-10 sm:gap-12 sm:px-6 sm:py-14 lg:grid-cols-12 lg:gap-14 lg:py-20">
-          <div className="lg:col-span-7 text-center lg:text-left">
-            <div className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-blue-200/80 bg-white/80 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-blue-700 shadow-sm backdrop-blur dark:border-blue-500/30 dark:bg-slate-900/70 dark:text-blue-300 sm:text-xs">
+          <div className="min-w-0 lg:col-span-7 text-center lg:text-left">
+            <div className="mb-5 inline-flex max-w-full min-w-0 items-center gap-2 rounded-full border border-blue-200/80 bg-white/80 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-blue-700 shadow-sm backdrop-blur dark:border-blue-500/30 dark:bg-slate-900/70 dark:text-blue-300 sm:text-xs">
               <span className="relative flex h-2 w-2 shrink-0">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
               </span>
-              <span className="truncate">{profile.currentBadge}</span>
+              <span className="min-w-0 truncate">{profile.currentBadge}</span>
             </div>
 
-            <h1 className="max-w-2xl text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl md:text-5xl xl:text-6xl">
+            <h1 className="max-w-2xl break-words text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl md:text-5xl xl:text-6xl">
               Hi, I&apos;m{" "}
               <span className="text-gradient">Muhammad Mohsin Saleem</span>
             </h1>
 
-            <h2 className="mt-3 max-w-2xl text-xl font-bold tracking-tight text-slate-800 dark:text-slate-100 sm:text-2xl md:text-3xl xl:text-4xl">
+            <h2 className="mt-3 max-w-2xl break-words text-xl font-bold tracking-tight text-slate-800 dark:text-slate-100 sm:text-2xl md:text-3xl xl:text-4xl">
               {profile.title}
             </h2>
 
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-400 sm:text-lg">
+            <p className="mt-5 max-w-2xl break-words text-base leading-relaxed text-slate-600 dark:text-slate-400 sm:text-lg">
               {profile.heroSummary}
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center lg:justify-start">
               <Link
                 href="/projects"
                 className="btn-shine relative inline-flex min-h-[48px] items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/30 transition hover:from-blue-500 hover:to-indigo-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] sm:text-base"
@@ -56,7 +56,7 @@ export default function Hero() {
               </Link>
             </div>
 
-            <dl className="mt-10 grid max-w-lg grid-cols-1 gap-4 border-t border-slate-200/80 pt-8 dark:border-slate-800 sm:grid-cols-3 sm:gap-3">
+            <dl className="mx-auto mt-10 grid max-w-lg grid-cols-1 gap-4 border-t border-slate-200/80 pt-8 dark:border-slate-800 sm:grid-cols-3 sm:gap-3 lg:mx-0">
               {profile.stats.map(({ value, label }) => (
                 <div key={label} className="text-center sm:text-left">
                   <dt className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-500 sm:text-xs">
@@ -74,7 +74,7 @@ export default function Hero() {
             initial={false}
             className="flex justify-center lg:col-span-5 lg:justify-end"
           >
-            <div className="relative w-full max-w-md">
+            <div className="relative w-full max-w-sm sm:max-w-md">
               <div
                 className="absolute -inset-3 rounded-[1.75rem] bg-gradient-to-br from-blue-600/25 via-indigo-500/20 to-sky-500/25 blur-2xl"
                 aria-hidden
@@ -85,7 +85,7 @@ export default function Hero() {
                 transition={{ type: "spring", stiffness: 260, damping: 22 }}
               >
                 <Image
-                  src="/images/Mohsin.jpeg"
+                  src="/images/mohsin-portrait.png"
                   alt={`${profile.name} — ${profile.title}`}
                   fill
                   className="object-cover"
