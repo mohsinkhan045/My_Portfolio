@@ -38,7 +38,7 @@ rl.question('Ready to deploy to Vercel? (y/n): ', (answer) => {
         console.log('3. Configure your project (Next.js should be auto-detected)');
         console.log('4. Add the following environment variables:');
         console.log('   - EMAIL_SERVICE: gmail');
-        console.log('   - EMAIL_USER: ms0547884@gmail.com');
+        console.log('   - EMAIL_USER: mohsinsaleemvr@gmail.com');
         console.log('   - EMAIL_PASS: (your Gmail app password)');
         console.log('   - NEXT_PUBLIC_SITE_URL: (your Vercel domain)');
         console.log('5. Click Deploy and wait for deployment to complete');

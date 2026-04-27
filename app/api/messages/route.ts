@@ -1,15 +1,12 @@
-import { NextResponse } from 'next/server';
-import { getMessages } from '@/lib/messageStore';
+import { NextResponse } from "next/server";
 
+/**
+ * Public GET removed for security. Messages are read server-side in
+ * `app/admin/page.tsx` via `getMessages()`.
+ */
 export async function GET() {
-  try {
-    const messages = getMessages();
-    return NextResponse.json({ messages });
-  } catch (error) {
-    console.error('Error fetching messages:', error);
-    return NextResponse.json(
-      { message: 'Failed to fetch messages' },
-      { status: 500 }
-    );
-  }
-} 
+  return NextResponse.json(
+    { message: "Not available. Use the admin dashboard on the same deployment." },
+    { status: 404 }
+  );
+}

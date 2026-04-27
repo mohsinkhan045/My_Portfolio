@@ -1,175 +1,165 @@
-import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
-import { config, isEmailConfigured } from '@/lib/config';
-import { addMessage } from '@/lib/messageStore';
+import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
+import { config, isEmailConfigured } from "@/lib/config";
+import { addMessage } from "@/lib/messageStore";
+import { rateLimitContact } from "@/lib/rateLimit";
+import { escapeHtml, validateContactPayload } from "@/lib/validation";
 
-// No global transporter - create a fresh one for each request to avoid connection timeout issues
 export async function POST(request: Request) {
-  try {
-    const data = await request.json();
-    const { name, email, subject, message } = data;
+  const limited = rateLimitContact(request);
+  if (!limited.ok) {
+    return NextResponse.json(
+      { message: "Too many requests. Please try again in a minute." },
+      { status: 429 }
+    );
+  }
 
-    // Validate form data
-    if (!name || !email || !subject || !message) {
-      return NextResponse.json(
-        { message: 'Missing required fields' },
-        { status: 400 }
-      );
+  try {
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ message: "Invalid JSON" }, { status: 400 });
     }
 
-    // Store message in shared message store
+    const valid = validateContactPayload(body);
+    if (!valid.ok) {
+      return NextResponse.json({ message: valid.error }, { status: 400 });
+    }
+
+    const { name, email, subject, message } = valid.data;
+
     const messageId = addMessage({
       name,
       email,
       subject,
-      message
+      message,
     });
-    
-    // Only log in development mode
-    if (process.env.NODE_ENV !== 'production') {
+
+    if (process.env.NODE_ENV !== "production") {
       console.log(`New message from ${name} (${email}): ${subject}`);
     }
-    
-    // Check if email is configured
+
     if (!isEmailConfigured()) {
-      // Different response in production vs development
-      if (process.env.NODE_ENV === 'production') {
+      if (process.env.NODE_ENV === "production") {
         return NextResponse.json(
-          { 
-            message: 'Message received. Thank you for contacting us.',
+          {
+            message: "Message received. Thank you for contacting us.",
             messageId,
-            error: 'Email not configured'
-          }, 
-          { status: 200 }
-        );
-      } else {
-        return NextResponse.json(
-          { 
-            message: 'Message received. Email delivery is not configured, but your message has been saved.',
-            to: config.email.recipient,
-            messageId,
-            error: 'Email not configured - check server logs for setup instructions'
-          }, 
+            error: "Email not configured",
+          },
           { status: 200 }
         );
       }
+      return NextResponse.json(
+        {
+          message:
+            "Message received. Email delivery is not configured, but your message has been saved.",
+          to: config.email.recipient,
+          messageId,
+          error: "Email not configured - check server logs for setup instructions",
+        },
+        { status: 200 }
+      );
     }
 
     try {
-      // Create a new transporter for each request
       const transporter = nodemailer.createTransport({
         service: config.email.service,
         auth: {
           user: config.email.user,
           pass: config.email.pass,
         },
-        // Only enable debug in development
-        debug: process.env.NODE_ENV !== 'production', 
+        debug: process.env.NODE_ENV !== "production",
       });
 
-      // Only log in development
-      if (process.env.NODE_ENV !== 'production') {
-        console.log(`Attempting to send email to ${config.email.recipient} using ${config.email.user}`);
+      if (process.env.NODE_ENV !== "production") {
+        console.log(
+          `Attempting to send email to ${config.email.recipient} using ${config.email.user}`
+        );
       }
 
-      // Create email options with specific formatting
+      const safeName = escapeHtml(name);
+      const safeEmail = escapeHtml(email);
+      const safeSubject = escapeHtml(subject);
+      const safeBody = escapeHtml(message).replace(/\n/g, "<br>");
+
       const mailOptions = {
         from: `"Portfolio Contact Form" <${config.email.user}>`,
-        replyTo: email, // Set reply-to as the visitor's email
+        replyTo: email,
         to: config.email.recipient,
         subject: `Contact Form: ${subject}`,
-        text: `
-Name: ${name}
-Email: ${email}
-          
-Message:
-${message}
-        `,
+        text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
         html: `
           <h3>New Contact Form Submission</h3>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Subject:</strong> ${subject}</p>
+          <p><strong>Name:</strong> ${safeName}</p>
+          <p><strong>Email:</strong> ${safeEmail}</p>
+          <p><strong>Subject:</strong> ${safeSubject}</p>
           <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, '<br>')}</p>
+          <p>${safeBody}</p>
         `,
       };
 
-      // Send email
       const info = await transporter.sendMail(mailOptions);
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('Email sent successfully:', info.response);
+      if (process.env.NODE_ENV !== "production") {
+        console.log("Email sent successfully:", info.response);
       }
-      
-      // Return success
-      return NextResponse.json({ 
-        message: 'Message sent successfully! Thank you for contacting us.',
+
+      return NextResponse.json({
+        message: "Message sent successfully! Thank you for contacting us.",
         success: true,
-        messageId
+        messageId,
       });
-    } catch (error: any) {
-      // Log error only in development
-      if (process.env.NODE_ENV !== 'production') {
-        console.error('Error sending email:', error);
-        console.error('Error details:', error.message);
+    } catch (error: unknown) {
+      const err = error as { code?: string; message?: string };
+
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Error sending email:", error);
       }
-      
-      // Check for Gmail authentication errors
-      if (error.code === 'EAUTH' && error.message.includes('Username and Password not accepted')) {
-        if (process.env.NODE_ENV !== 'production') {
-          console.error('\n\n-------- EMAIL AUTHENTICATION ERROR --------');
-          console.error('Your regular Gmail password will NOT work!');
-          console.error('You MUST create an App Password in your Google Account:');
-          console.error('1. Go to https://myaccount.google.com/security');
-          console.error('2. Under "Signing in to Google", find "App passwords"');
-          console.error('3. Generate a new app password for "Mail"');
-          console.error('4. Copy the 16-character password (no spaces)');
-          console.error('5. Update your .env.local file with this password');
-          console.error('------------------------------------------\n\n');
-        }
-        
-        // In production, don't reveal details about the authentication error
-        if (process.env.NODE_ENV === 'production') {
-          return NextResponse.json({ 
-            message: 'Thank you for your message. We will get back to you soon.',
+
+      if (
+        err.code === "EAUTH" &&
+        err.message?.includes("Username and Password not accepted")
+      ) {
+        if (process.env.NODE_ENV === "production") {
+          return NextResponse.json({
+            message: "Thank you for your message. We will get back to you soon.",
             success: false,
             messageId,
-            error: 'Email authentication failed'
-          });
-        } else {
-          return NextResponse.json({ 
-            message: 'Message saved but email delivery failed. Gmail requires an App Password - please check server logs.',
-            success: false,
-            messageId,
-            error: 'Gmail authentication failed - need App Password'
+            error: "Email authentication failed",
           });
         }
-      }
-      
-      // General error with different messaging for production
-      if (process.env.NODE_ENV === 'production') {
-        return NextResponse.json({ 
-          message: 'Thank you for your message. We will get back to you soon.',
+        return NextResponse.json({
+          message:
+            "Message saved but email delivery failed. Gmail requires an App Password - please check server logs.",
           success: false,
           messageId,
-          error: 'Email delivery failed'
-        });
-      } else {
-        return NextResponse.json({ 
-          message: 'Message saved but email delivery failed. Please check server logs.',
-          success: false,
-          messageId,
-          error: 'Email delivery failed'
+          error: "Gmail authentication failed - need App Password",
         });
       }
+
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json({
+          message: "Thank you for your message. We will get back to you soon.",
+          success: false,
+          messageId,
+          error: "Email delivery failed",
+        });
+      }
+      return NextResponse.json({
+        message: "Message saved but email delivery failed. Please check server logs.",
+        success: false,
+        messageId,
+        error: "Email delivery failed",
+      });
     }
   } catch (error) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error('Error processing request:', error);
+    if (process.env.NODE_ENV !== "production") {
+      console.error("Error processing request:", error);
     }
     return NextResponse.json(
-      { message: 'Failed to process your request. Please try again.' },
+      { message: "Failed to process your request. Please try again." },
       { status: 500 }
     );
   }
-} 
+}

@@ -1,204 +1,151 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import { profile } from "@/data/profile";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const pathname = usePathname();
 
+  const linkClass = (href: string) =>
+    `transition-colors ${
+      pathname === href
+        ? "text-blue-600 dark:text-blue-400"
+        : "text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400"
+    }`;
+
   return (
-    <footer className="bg-white dark:bg-gray-900">
-      <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-        <div className="md:flex md:justify-between">
-          <div className="mb-8 md:mb-0">
-            <Link href="/" className="flex items-center">
-              <span className="self-center text-xl sm:text-2xl font-semibold whitespace-nowrap dark:text-white">
-                Muhammad Mohsin Saleem
-              </span>
+    <footer className="relative mt-auto border-t border-slate-200/80 bg-white/70 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/70">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"
+        aria-hidden
+      />
+      <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:py-14">
+        <div className="grid gap-10 md:grid-cols-12 md:gap-8">
+          <div className="md:col-span-5">
+            <Link
+              href="/"
+              className="inline-block text-lg font-semibold tracking-tight text-slate-900 dark:text-white"
+            >
+              {profile.name}
             </Link>
-            <p className="mt-2 text-sm sm:text-base text-gray-500 dark:text-gray-400 max-w-xs">
-              Full Stack Blockchain Developer specializing in DeFi, NFTs, and Web3 applications.
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+              {profile.footerTagline}
             </p>
+            <div className="mt-5 flex gap-3">
+              <a
+                href={`mailto:${profile.contact.email}`}
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/90 bg-white text-slate-600 shadow-sm transition hover:border-blue-200 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-blue-500/40 dark:hover:text-blue-400"
+                aria-label="Email"
+              >
+                <FiMail className="h-4 w-4" />
+              </a>
+              <a
+                href={profile.contact.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/90 bg-white text-slate-600 shadow-sm transition hover:border-blue-200 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-blue-500/40 dark:hover:text-blue-400"
+                aria-label="GitHub"
+              >
+                <FiGithub className="h-4 w-4" />
+              </a>
+              <a
+                href={profile.contact.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/90 bg-white text-slate-600 shadow-sm transition hover:border-blue-200 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-blue-500/40 dark:hover:text-blue-400"
+                aria-label="LinkedIn"
+              >
+                <FiLinkedin className="h-4 w-4" />
+              </a>
+            </div>
           </div>
-          <div className="grid grid-cols-2 gap-6 sm:gap-8 sm:grid-cols-3">
+
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:col-span-7">
             <div>
-              <h2 className="mb-4 sm:mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+              <h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 Navigation
               </h2>
-              <ul className="text-sm sm:text-base text-gray-500 dark:text-gray-400 font-medium">
-                <li className="mb-3 sm:mb-4">
-                  <Link 
-                    href="/" 
-                    className={pathname === "/" ? "text-blue-600 dark:text-blue-500 hover:underline" : "hover:underline"}
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li className="mb-3 sm:mb-4">
-                  <Link 
-                    href="/about" 
-                    className={pathname === "/about" ? "text-blue-600 dark:text-blue-500 hover:underline" : "hover:underline"}
-                  >
-                    About
-                  </Link>
-                </li>
-                <li className="mb-3 sm:mb-4">
-                  <Link 
-                    href="/projects" 
-                    className={pathname === "/projects" ? "text-blue-600 dark:text-blue-500 hover:underline" : "hover:underline"}
-                  >
-                    Projects
-                  </Link>
-                </li>
-                <li className="mb-3 sm:mb-4">
-                  <Link 
-                    href="/contact" 
-                    className={pathname === "/contact" ? "text-blue-600 dark:text-blue-500 hover:underline" : "hover:underline"}
-                  >
-                    Contact
-                  </Link>
-                </li>
-                <li className="mb-3 sm:mb-4">
-                  <Link 
-                    href="/skills" 
-                    className={pathname === "/skills" ? "text-blue-600 dark:text-blue-500 hover:underline" : "hover:underline"}
-                  >
-                    Skills
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    href="/resume" 
-                    className={pathname === "/resume" ? "text-blue-600 dark:text-blue-500 hover:underline" : "hover:underline"}
-                  >
-                    Resume
-                  </Link>
-                </li>
+              <ul className="space-y-3 text-sm font-medium">
+                {[
+                  ["/", "Home"],
+                  ["/about", "About"],
+                  ["/projects", "Projects"],
+                  ["/skills", "Skills"],
+                  ["/resume", "Resume"],
+                  ["/contact", "Contact"],
+                ].map(([href, label]) => (
+                  <li key={href}>
+                    <Link href={href} className={linkClass(href)}>
+                      {label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
             <div>
-              <h2 className="mb-4 sm:mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
-                Blockchain Focus
+              <h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                Focus
               </h2>
-              <ul className="text-sm sm:text-base text-gray-500 dark:text-gray-400 font-medium">
-                <li className="mb-3 sm:mb-4">
-                  <span className="hover:underline">Smart Contracts</span>
-                </li>
-                <li className="mb-3 sm:mb-4">
-                  <span className="hover:underline">DeFi Development</span>
-                </li>
-                <li className="mb-3 sm:mb-4">
-                  <span className="hover:underline">NFT Solutions</span>
-                </li>
-                <li>
-                  <span className="hover:underline">Web3 Integration</span>
-                </li>
+              <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
+                <li>Web &amp; mobile apps</li>
+                <li>REST APIs &amp; backends</li>
+                <li>Smart contracts &amp; Web3</li>
+                <li>Dashboards &amp; e-commerce</li>
               </ul>
             </div>
-            <div>
-              <h2 className="mb-4 sm:mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+            <div className="col-span-2 sm:col-span-1">
+              <h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 Connect
               </h2>
-              <ul className="text-sm sm:text-base text-gray-500 dark:text-gray-400 font-medium">
-                <li className="mb-3 sm:mb-4">
+              <ul className="space-y-3 text-sm font-medium">
+                <li>
                   <a
-                    href="https://github.com/mohsinkhan045"
-                    className="hover:underline"
+                    href={profile.contact.github}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="text-slate-600 transition hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400"
                   >
                     GitHub
                   </a>
                 </li>
-                <li className="mb-3 sm:mb-4">
+                <li>
                   <a
-                    href="https://www.linkedin.com/in/muhammad-mohsin-saleem-745b22267/"
-                    className="hover:underline"
+                    href={profile.contact.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="text-slate-600 transition hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400"
                   >
                     LinkedIn
                   </a>
                 </li>
                 <li>
                   <a
-                    href="mailto:ms0547884@gmail.com"
-                    className="hover:underline"
+                    href={`mailto:${profile.contact.email}`}
+                    className="text-slate-600 transition hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400"
                   >
-                    Email Me
+                    Email
                   </a>
                 </li>
               </ul>
             </div>
           </div>
         </div>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <div className="sm:flex sm:items-center sm:justify-between">
-          <span className="text-xs sm:text-sm text-gray-500 sm:text-center dark:text-gray-400">
+
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-200/80 pt-8 text-xs text-slate-500 dark:border-slate-800 dark:text-slate-500 sm:flex-row sm:text-sm">
+          <span>
             © {currentYear}{" "}
-            <Link href="/" className="hover:underline">
-              Muhammad Mohsin Saleem
+            <Link href="/" className="font-medium text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400">
+              {profile.name}
             </Link>
-            . All Rights Reserved.
+            . All rights reserved.
           </span>
-          <div className="flex mt-4 space-x-4 sm:space-x-5 sm:justify-center sm:mt-0">
-            <a
-              href="mailto:ms0547884@gmail.com"
-              className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-            >
-              <svg
-                className="w-4 h-4"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 16"
-              >
-                <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
-                <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
-              </svg>
-              <span className="sr-only">Email</span>
-            </a>
-            <a
-              href="https://github.com/mohsinkhan045"
-              className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg
-                className="w-4 h-4"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 .333A9.911 9.911 0 0 0 6.866 19.65c.5.092.678-.215.678-.477 0-.237-.01-1.017-.014-1.845-2.757.6-3.338-1.169-3.338-1.169a2.627 2.627 0 0 0-1.1-1.451c-.9-.615.07-.6.07-.6a2.084 2.084 0 0 1 1.518 1.021 2.11 2.11 0 0 0 2.884.823c.044-.503.268-.973.63-1.325-2.2-.25-4.516-1.1-4.516-4.9A3.832 3.832 0 0 1 4.7 7.068a3.56 3.56 0 0 1 .095-2.623s.832-.266 2.726 1.016a9.409 9.409 0 0 1 4.962 0c1.89-1.282 2.717-1.016 2.717-1.016.366.83.402 1.768.1 2.623a3.827 3.827 0 0 1 1.02 2.659c0 3.807-2.319 4.644-4.525 4.889a2.366 2.366 0 0 1 .673 1.834c0 1.326-.012 2.394-.012 2.72 0 .263.18.572.681.475A9.911 9.911 0 0 0 10 .333Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="sr-only">GitHub account</span>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/muhammad-mohsin-saleem-745b22267/"
-              className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg
-                className="w-4 h-4"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 448 512"
-              >
-                <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
-              </svg>
-              <span className="sr-only">LinkedIn account</span>
-            </a>
-          </div>
+          <span className="text-slate-400 dark:text-slate-600">
+            Built with Next.js &amp; Tailwind CSS
+          </span>
         </div>
       </div>
     </footer>
   );
-} 
+}

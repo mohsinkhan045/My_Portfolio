@@ -1,77 +1,30 @@
 "use client";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
-import { motion } from "framer-motion";
 
 export default function ProjectsPage() {
-  // Animation variants
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
-    }
-  };
-  
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-  
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" }
-    }
-  };
-
   return (
-    <section className="bg-white dark:bg-gray-900 pt-16 sm:pt-20 md:pt-24">
-      <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-        <motion.div 
-          className="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16"
-          initial="hidden"
-          animate="visible"
-          variants={fadeInUp}
-        >
-          <motion.h1 
-            className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            My Projects
-          </motion.h1>
-          <motion.p 
-            className="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.7 }}
-          >
-            Explore my portfolio of Blockchain projects
-          </motion.p>
-        </motion.div>
-        <motion.div 
-          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-        >
-          {projects.map((project, index) => (
-            <motion.div key={index} variants={cardVariants}>
-              <ProjectCard {...project} />
-            </motion.div>
+    <section className="relative">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
+        <div className="mx-auto mb-12 max-w-2xl text-center lg:mb-16">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
+            Work
+          </p>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl md:text-5xl">
+            Project <span className="text-gradient">portfolio</span>
+          </h1>
+          <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:text-lg">
+            DeFi, NFTs, staking, marketplaces, and humanitarian on-chain systems
+            — built with security and clarity in mind.
+          </p>
+        </div>
+
+        <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
+            <ProjectCard key={project.slug} {...project} />
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
-} 
+}

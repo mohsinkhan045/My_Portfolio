@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { projects } from "@/data/projects";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -15,10 +15,9 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata(
-  { params }: PageProps,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
   
@@ -55,15 +54,15 @@ export default async function ProjectPage({ params }: PageProps) {
     .slice(0, 3);
 
   return (
-    <section className="bg-white dark:bg-gray-900">
-      <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-        <div className="max-w-4xl mx-auto">
-          <nav className="flex mb-5" aria-label="Breadcrumb">
-            <ol className="inline-flex items-center space-x-1 md:space-x-3">
+    <section className="relative">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
+        <div className="mx-auto max-w-4xl">
+          <nav className="mb-6 flex" aria-label="Breadcrumb">
+            <ol className="inline-flex flex-wrap items-center gap-1 text-sm md:gap-2">
               <li className="inline-flex items-center">
                 <Link
                   href="/"
-                  className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
+                  className="inline-flex items-center font-medium text-slate-600 transition hover:text-blue-600 dark:text-slate-400 dark:hover:text-white"
                 >
                   <svg
                     className="w-3 h-3 mr-2.5"
@@ -96,7 +95,7 @@ export default async function ProjectPage({ params }: PageProps) {
                   </svg>
                   <Link
                     href="/projects"
-                    className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"
+                    className="ml-1 font-medium text-slate-600 transition hover:text-blue-600 md:ml-2 dark:text-slate-400 dark:hover:text-white"
                   >
                     Projects
                   </Link>
@@ -119,7 +118,7 @@ export default async function ProjectPage({ params }: PageProps) {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">
+                  <span className="ml-1 max-w-[12rem] truncate font-medium text-slate-500 md:ml-2 md:max-w-none dark:text-slate-400">
                     {project.title}
                   </span>
                 </div>
@@ -127,57 +126,75 @@ export default async function ProjectPage({ params }: PageProps) {
             </ol>
           </nav>
 
-          <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-4xl lg:text-5xl">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
+            Case study
+          </p>
+          <h1 className="mb-4 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white md:text-4xl lg:text-5xl">
             {project.title}
           </h1>
 
-          <div className="flex flex-wrap gap-2 mb-6">
+          <div className="mb-8 flex flex-wrap gap-2">
             {project.tags.map((tag, index) => (
               <span
                 key={index}
-                className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded dark:bg-blue-900 dark:text-blue-300"
+                className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-800 ring-1 ring-blue-100 dark:bg-blue-950/50 dark:text-blue-200 dark:ring-blue-800/50 sm:text-sm"
               >
                 {tag}
               </span>
             ))}
           </div>
 
-          <div className="relative w-full h-[400px] mb-8">
+          <div className="relative mb-10 aspect-[21/9] w-full min-h-[220px] overflow-hidden rounded-3xl border border-slate-200/80 bg-slate-100 shadow-xl dark:border-slate-700 dark:bg-slate-800 sm:min-h-[280px] md:h-[400px] md:min-h-0">
             <Image
               src={project.imageUrl}
               alt={project.title}
               fill
-              className="rounded-lg object-cover"
+              className="object-cover"
+              sizes="(max-width: 896px) 100vw, 896px"
+              priority
             />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/30 via-transparent to-transparent" />
           </div>
 
-          <div className="prose max-w-none dark:prose-invert mb-8">
-            <p className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+          <div className="glass-panel mb-10 rounded-2xl p-6 sm:p-8">
+            <p className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
               {project.description}
             </p>
-            <p className="text-base text-gray-700 dark:text-gray-300 mb-6">
+            <p className="text-base leading-relaxed text-slate-600 dark:text-slate-400">
               {project.longDescription}
             </p>
-
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Key Features
-            </h2>
-            <ul className="list-disc pl-6 space-y-2 text-gray-700 dark:text-gray-300 mb-8">
-              {project.features.map((feature, index) => (
-                <li key={index}>{feature}</li>
-              ))}
-            </ul>
           </div>
 
-          <div className="flex flex-wrap gap-4 mb-12">
+          <h2 className="mb-4 text-xl font-bold text-slate-900 dark:text-white sm:text-2xl">
+            Key features
+          </h2>
+          <ul className="mb-10 list-disc space-y-2 pl-5 text-slate-600 marker:text-blue-500 dark:text-slate-400 sm:pl-6">
+            {project.features.map((feature, index) => (
+              <li key={index} className="leading-relaxed">
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          <div className="mb-12 flex flex-wrap gap-3">
+            {project.demoUrl && (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 transition hover:from-blue-500 hover:to-indigo-500 sm:text-base"
+              >
+                Live demo
+              </a>
+            )}
             {project.codeUrl && (
               <a
                 href={project.codeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+                className="inline-flex items-center justify-center rounded-full border border-slate-300/90 bg-white px-6 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-slate-400 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 sm:text-base"
               >
-                View Source Code
+                View source
                 <svg
                   className="w-5 h-5 ml-2 -mr-1"
                   aria-hidden="true"
@@ -195,47 +212,47 @@ export default async function ProjectPage({ params }: PageProps) {
             )}
           </div>
 
-          {/* Related Projects Section */}
-          <div className="border-t border-gray-200 dark:border-gray-700 pt-8 mt-8">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-              Related Projects
+          <div className="mt-12 border-t border-slate-200/80 pt-10 dark:border-slate-800">
+            <h2 className="mb-6 text-xl font-bold text-slate-900 dark:text-white sm:text-2xl">
+              Related projects
             </h2>
-            <div className="grid gap-8 md:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 md:gap-8">
               {relatedProjects.map((relatedProject) => (
                 <div 
                   key={relatedProject.slug} 
-                  className="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+                  className="card-elevated flex flex-col overflow-hidden rounded-2xl"
                 >
-                  <div className="relative w-full h-40">
+                  <div className="relative h-40 w-full">
                     <Image
-                      className="rounded-t-lg object-cover"
+                      className="object-cover"
                       src={relatedProject.imageUrl}
                       alt={relatedProject.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
-                  <div className="p-4">
-                    <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  <div className="flex flex-grow flex-col p-4 sm:p-5">
+                    <h3 className="mb-2 text-lg font-bold tracking-tight text-slate-900 dark:text-white">
                       {relatedProject.title}
-                    </h5>
-                    <div className="flex flex-wrap gap-2 mb-3">
+                    </h3>
+                    <div className="mb-4 flex flex-wrap gap-2">
                       {relatedProject.tags.slice(0, 2).map((tag, index) => (
                         <span
                           key={index}
-                          className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                          className="rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-950/50 dark:text-blue-200"
                         >
                           {tag}
                         </span>
                       ))}
                       {relatedProject.tags.length > 2 && (
-                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                          +{relatedProject.tags.length - 2} more
+                        <span className="self-center text-xs text-slate-500 dark:text-slate-400">
+                          +{relatedProject.tags.length - 2}
                         </span>
                       )}
                     </div>
                     <Link
                       href={`/projects/${relatedProject.slug}`}
-                      className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      className="mt-auto inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition hover:from-blue-500 hover:to-indigo-500"
                     >
                       View Details
                       <svg

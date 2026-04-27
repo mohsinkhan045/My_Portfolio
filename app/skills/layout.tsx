@@ -1,8 +1,9 @@
+import { profile } from '@/data/profile';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Skills | Muhammad Mohsin Saleem',
-  description: 'Explore my technical skills and expertise as a Full Stack Blockchain Developer',
+  title: `Skills | ${profile.name}`,
+  description: `Technical skills — ${profile.title}. React, Next.js, Node, React Native, MongoDB, PostgreSQL, Solidity, EVM, Algorand.`,
 };
 
 export default function SkillsLayout({

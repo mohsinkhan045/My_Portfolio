@@ -41,7 +41,7 @@ Follow these steps to deploy your portfolio on Netlify with proper email functio
    - Once deployment starts, go to "Site settings" → "Environment variables"
    - Add the following environment variables:
      - `EMAIL_SERVICE`: `gmail`
-     - `EMAIL_USER`: `ms0547884@gmail.com` (or your email)
+     - `EMAIL_USER`: `mohsinsaleemvr@gmail.com` (or your email)
      - `EMAIL_PASS`:lvas myzl tfra pjzv
      - `NEXT_PUBLIC_SITE_URL`: Your Netlify site URL (e.g., https://your-site.netlify.app)
 

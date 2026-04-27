@@ -10,7 +10,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: config.siteMetadata.title,
   description: config.siteMetadata.description,
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://your-netlify-site.netlify.app'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  ),
   openGraph: {
     title: config.siteMetadata.title,
     description: config.siteMetadata.description,
@@ -25,10 +27,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="flex flex-col min-h-screen">
+      <body className={`${inter.className} min-h-screen`}>
+        <div
+          className="mesh-bg pointer-events-none fixed inset-0 -z-10"
+          aria-hidden
+        />
+        <div className="flex min-h-screen flex-col">
           <Navbar />
-          <main className="flex-grow">{children}</main>
+          <main className="relative z-0 flex-grow pt-[4.25rem] sm:pt-24">{children}</main>
           <Footer />
         </div>
       </body>

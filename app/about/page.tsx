@@ -1,163 +1,160 @@
 "use client";
-import Skills from "@/components/Skills";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { profile } from "@/data/profile";
+import Skills from "@/components/Skills";
 
 export default function AboutPage() {
-  // Create refs for the sections we want to animate
   const aboutRef = useRef(null);
   const imageRef = useRef(null);
   const journeyRef = useRef(null);
-  
-  // Check if elements are in view
-  const aboutInView = useInView(aboutRef, { once: true, amount: 0.3 });
-  const imageInView = useInView(imageRef, { once: true, amount: 0.3 });
-  const journeyInView = useInView(journeyRef, { once: true, amount: 0.3 });
-  
-  // Animation variants
+
+  const aboutInView = useInView(aboutRef, { once: true, amount: 0.25 });
+  const imageInView = useInView(imageRef, { once: true, amount: 0.2 });
+  const journeyInView = useInView(journeyRef, { once: true, amount: 0.2 });
+
   const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
+    hidden: { opacity: 0, y: 24 },
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
-    }
+      transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+    },
   };
-  
-  const fadeInLeft = {
-    hidden: { opacity: 0, x: -50 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
-    }
-  };
-  
+
   const fadeInRight = {
-    hidden: { opacity: 0, x: 50 },
-    visible: { 
-      opacity: 1, 
+    hidden: { opacity: 0, x: 36 },
+    visible: {
+      opacity: 1,
       x: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
-    }
+      transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+    },
   };
-  
+
   const staggerChildren = {
     hidden: { opacity: 0 },
-    visible: { 
+    visible: {
       opacity: 1,
-      transition: { 
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
-    }
+      transition: { staggerChildren: 0.1, delayChildren: 0.08 },
+    },
   };
 
   return (
-    <div className="min-h-screen relative">
-      <section className="bg-white dark:bg-gray-900 pt-16 sm:pt-20 md:pt-24">
-        <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-          <motion.div 
-            ref={aboutRef}
-            initial="hidden"
-            animate={aboutInView ? "visible" : "hidden"}
-            variants={staggerChildren}
-            className="font-light text-gray-500 sm:text-lg dark:text-gray-400"
-          >
-            <motion.h1 
-              variants={fadeInUp}
-              className="mb-4 text-3xl sm:text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
+    <div className="min-h-screen">
+      <section className="relative">
+        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
+            <motion.div
+              ref={aboutRef}
+              initial="hidden"
+              animate={aboutInView ? "visible" : "hidden"}
+              variants={staggerChildren}
+              className="text-base leading-relaxed text-slate-600 dark:text-slate-400 sm:text-lg"
             >
-              About Me
-            </motion.h1>
-            <motion.p 
-              variants={fadeInUp}
-              className="mb-4"
-            >
-              Hi there! I'm Muhammad Mohsin Saleem, a passionate Full Stack Blockchain Developer with expertise in building decentralized applications and blockchain solutions. I focus on creating secure, scalable, and user-friendly applications that leverage the power of blockchain technology.
-            </motion.p>
-            <motion.p 
-              variants={fadeInUp}
-              className="mb-4"
-            >
-              My journey in blockchain development began with a strong foundation in web development, where I discovered the transformative potential of decentralized systems. Since then, I've been constantly learning and adapting to new blockchain technologies and methodologies to stay at the forefront of this rapidly evolving industry.
-            </motion.p>
-            <motion.p 
-              variants={fadeInUp}
-              className="mb-4"
-            >
-              When I'm not coding smart contracts or building dApps, I enjoy researching new blockchain protocols, participating in hackathons, and contributing to the blockchain community. I believe in the power of blockchain to create more transparent, secure, and equitable systems across various industries.
-            </motion.p>
-          </motion.div>
-          <motion.div 
-            ref={imageRef}
-            initial="hidden"
-            animate={imageInView ? "visible" : "hidden"}
-            variants={fadeInRight}
-            className="mt-8"
-          >
-            <motion.div 
-              className="relative w-full h-[250px] sm:h-[300px] md:h-[400px] rounded-lg shadow-xl overflow-hidden"
-              whileHover={{ scale: 1.03 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Image
-                className="rounded-lg object-cover"
-                src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2055&q=80"
-                alt="Muhammad Mohsin Saleem - Full Stack Blockchain Developer"
-                fill
-                priority
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
+              <motion.p
+                variants={fadeInUp}
+                className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400"
+              >
+                About
+              </motion.p>
+              <motion.h1
+                variants={fadeInUp}
+                className="mb-6 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl md:text-5xl"
+              >
+                Building the{" "}
+                <span className="text-gradient">decentralized</span> web
+              </motion.h1>
+              <motion.p variants={fadeInUp} className="mb-4">
+                {profile.about.intro}
+              </motion.p>
+              <motion.p variants={fadeInUp} className="mb-4">
+                {profile.about.mid}
+              </motion.p>
+              <motion.p variants={fadeInUp}>
+                {profile.about.close}
+              </motion.p>
             </motion.div>
-          </motion.div>
+
+            <motion.div
+              ref={imageRef}
+              initial="hidden"
+              animate={imageInView ? "visible" : "hidden"}
+              variants={fadeInRight}
+              className="relative"
+            >
+              <div
+                className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-blue-600/20 via-indigo-500/15 to-sky-500/20 blur-2xl"
+                aria-hidden
+              />
+              <motion.div
+                className="relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-3xl border border-white/60 bg-white shadow-2xl ring-1 ring-slate-900/5 dark:border-slate-700 dark:bg-slate-900 dark:ring-white/10 lg:mx-0 lg:max-w-none"
+                whileHover={{ scale: 1.01 }}
+                transition={{ type: "spring", stiffness: 260, damping: 24 }}
+              >
+                <Image
+                  src="/images/mohsin-portrait.png"
+                  alt={`${profile.name} — ${profile.title}`}
+                  fill
+                  className="object-cover object-[center_20%]"
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 480px"
+                />
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      <section className="bg-gray-50 dark:bg-gray-800 py-12">
-        <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+      <section className="border-y border-slate-200/80 bg-slate-50/80 py-12 dark:border-slate-800/80 dark:bg-slate-950/40 sm:py-16">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Skills />
         </div>
       </section>
 
-      <section className="bg-white dark:bg-gray-900 py-12">
-        <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-          <motion.div 
+      <section className="py-12 sm:py-16">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <motion.div
             ref={journeyRef}
             initial="hidden"
             animate={journeyInView ? "visible" : "hidden"}
             variants={staggerChildren}
-            className="max-w-screen-lg text-gray-500 sm:text-lg dark:text-gray-400"
+            className="glass-panel mx-auto max-w-3xl rounded-2xl p-6 sm:p-10"
           >
-            <motion.h2 
-              variants={fadeInLeft}
-              className="mb-4 text-3xl sm:text-4xl tracking-tight font-bold text-gray-900 dark:text-white"
+            <motion.h2
+              variants={fadeInUp}
+              className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400"
             >
-              My Journey
+              Journey
             </motion.h2>
-            <motion.p 
+            <motion.h3
               variants={fadeInUp}
-              className="mb-4 font-light"
+              className="mb-6 text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl"
             >
-              I started my professional career after developing a strong foundation in full-stack web development. As blockchain technology began to emerge as a transformative force, I shifted my focus to specialize in this cutting-edge field, mastering smart contracts, decentralized applications, and blockchain architecture.
-            </motion.p>
-            <motion.p 
+              Experience &amp; education
+            </motion.h3>
+            <motion.ul
               variants={fadeInUp}
-              className="mb-4 font-light"
+              className="mb-6 space-y-3 text-sm font-light text-slate-600 dark:text-slate-400 sm:text-base"
             >
-              Throughout my career, I've worked with various blockchain platforms including Ethereum, Binance Smart Chain, Solana, and Polygon. I've developed expertise in smart contract development using Solidity, Web3.js, and Ethers.js, along with experience in building secure and optimized blockchain solutions for various use cases.
-            </motion.p>
-            <motion.p 
-              variants={fadeInUp}
-              className="mb-4 font-medium"
-            >
-              My full-stack expertise allows me to create complete blockchain solutions—from designing secure smart contracts to developing intuitive front-end interfaces that make blockchain technology accessible to everyone. I remain committed to writing secure, efficient code and staying at the forefront of blockchain innovation.
+              {profile.experience.map((job) => (
+                <li key={job.company + job.period} className="flex flex-col border-b border-slate-200/80 pb-3 last:border-0 dark:border-slate-700/80 sm:flex-row sm:justify-between sm:gap-4">
+                  <span className="font-semibold text-slate-800 dark:text-slate-200">
+                    {job.role} · {job.company}
+                  </span>
+                  <span className="text-slate-500 dark:text-slate-500">
+                    {job.location} · {job.period}
+                  </span>
+                </li>
+              ))}
+            </motion.ul>
+            <motion.p variants={fadeInUp} className="font-medium text-slate-800 dark:text-slate-200">
+              {profile.education.degree} — {profile.education.school},{" "}
+              {profile.education.location} ({profile.education.period}).
             </motion.p>
           </motion.div>
         </div>
       </section>
     </div>
   );
-} 
+}

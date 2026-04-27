@@ -13,8 +13,8 @@ export interface Project {
 export const projects: Project[] = [
   {
     title: "ImpactoMoney",
-    description: "A blockchain-based Gaza Fund NFT voucher platform that enables transparent and direct humanitarian aid through NFT vouchers.",
-    longDescription: "ImpactoMoney is an innovative cross-chain platform focused on humanitarian aid for Gaza through NFT vouchers. The platform leverages blockchain technology to ensure transparent and direct delivery of funds to those in need. Users can purchase NFT vouchers that represent real-world aid packages, with each transaction recorded on the blockchain for complete transparency. The cross-chain functionality allows donors from various blockchain ecosystems to participate, maximizing reach and accessibility. Smart contracts ensure that funds are allocated as intended, with verification mechanisms to confirm aid delivery. This project demonstrates the power of blockchain technology in humanitarian efforts by eliminating intermediaries and providing verifiable impact.",
+    description: "Ethereum-based charity platform: stablecoin-wrapped NFT vouchers for transparent donations and on-chain fund traceability (aligned with humanitarian aid use cases).",
+    longDescription: "ImpactoMoney is an Ethereum-focused charity project built around stablecoin-wrapped NFT vouchers so donors can support transparent aid flows with verifiable on-chain traceability. Smart contracts handle voucher issuance and redemption; the design emphasizes direct fund accountability and auditability over opaque intermediaries. This work reflects production experience shipping similar voucher-style charity flows on EVM (see resume: ImpactoMoney Charity / Ethereum).",
     imageUrl: "/images/ImpactoMoney.png",
     tags: ["Cross-Chain", "NFT", "Humanitarian Aid", "Smart Contracts", "Blockchain", "Gaza Fund"],
     codeUrl: "https://github.com/mohsinkhan045/Impactomoney",

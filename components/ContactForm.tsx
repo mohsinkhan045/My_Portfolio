@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { profile } from "@/data/profile";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -12,8 +14,12 @@ export default function ContactForm() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [recipient, setRecipient] = useState("ms0547884@gmail.com");
+  const [recipient, setRecipient] = useState(profile.contact.email);
   const [messageId, setMessageId] = useState("");
+  const [submittedEmail, setSubmittedEmail] = useState("");
+
+  const inputClass =
+    "block w-full rounded-xl border border-slate-200/90 bg-white/90 p-3 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/25 dark:border-slate-600 dark:bg-slate-900/80 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-blue-400 sm:p-3.5";
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -29,93 +35,100 @@ export default function ContactForm() {
     setSubmitError(false);
     setErrorMessage("");
     setMessageId("");
+    const emailBeforeSubmit = formData.email;
 
     try {
-      console.log("Submitting form data:", formData);
-      
-      // Add a small delay to improve user experience (shows the "Sending..." state)
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Send the form data to the API endpoint
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      await new Promise((resolve) => setTimeout(resolve, 600));
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       const data = await response.json();
-      console.log("Response from server:", data);
-      
-      // Set recipient from response if available
-      if (data.to) {
-        setRecipient(data.to);
-      }
 
-      // Set message ID if available
-      if (data.messageId) {
-        setMessageId(data.messageId);
-      }
+      if (data.to) setRecipient(data.to);
+      if (data.messageId) setMessageId(data.messageId);
 
       if (response.ok) {
-        // Success - clear form and show success message
+        setSubmittedEmail(emailBeforeSubmit);
         setSubmitSuccess(true);
         setFormData({ name: "", email: "", subject: "", message: "" });
-        
-        // If there was an error with email delivery but the message was still saved
         if (data.error) {
-          setErrorMessage(`Note: ${data.error}. Your message has been saved and we'll still receive it.`);
+          setErrorMessage(
+            `Note: ${data.error}. Your message has been recorded.`
+          );
         }
       } else {
-        // Server returned an error
-        throw new Error(data.message || 'Failed to send message');
+        throw new Error(data.message || "Failed to send message");
       }
     } catch (error) {
       setSubmitError(true);
-      setErrorMessage(error instanceof Error ? error.message : 'An unexpected error occurred');
-      console.error("Error submitting form:", error);
+      setErrorMessage(
+        error instanceof Error ? error.message : "An unexpected error occurred"
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div>
-      <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
-        Send Message
+    <div className="glass-panel rounded-2xl p-5 sm:p-8">
+      <h2 className="mb-6 text-xl font-bold text-slate-900 dark:text-white sm:text-2xl">
+        Send a message
       </h2>
-      
-      {/* Email Setup Notice */}
-      {/* Removed email setup required message as per user request */}
-      
-      {submitSuccess && (
-        <div className="p-4 mb-6 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400">
-          <span className="font-medium">Success!</span> Your message has been
-          received{messageId ? ` (Reference ID: ${messageId})` : ''}. We'll get back to you soon at {formData.email || "your email address"}.
-          <p className="mt-2 text-xs">
-            {errorMessage ? (
-              <span className="text-yellow-600 dark:text-yellow-400">{errorMessage}</span>
-            ) : (
+
+      <AnimatePresence mode="wait">
+        {submitSuccess && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="mb-6 rounded-xl border border-emerald-200/80 bg-emerald-50/90 p-4 text-sm text-emerald-900 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-100"
+          >
+            <span className="font-semibold">Message received.</span>{" "}
+            We&apos;ll get back to you soon
+            {submittedEmail ? (
               <>
-                If you don't receive a response, please contact directly at {recipient}
+                {" "}
+                at <span className="font-medium">{submittedEmail}</span>
               </>
+            ) : null}
+            .
+            {messageId ? (
+              <p className="mt-2 text-xs opacity-90">
+                Reference: <span className="font-mono">{messageId}</span>
+              </p>
+            ) : null}
+            {errorMessage ? (
+              <p className="mt-2 text-xs text-amber-800 dark:text-amber-200/90">
+                {errorMessage}
+              </p>
+            ) : (
+              <p className="mt-2 text-xs opacity-90">
+                You can also reach me directly at {recipient}
+              </p>
             )}
-          </p>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {submitError && (
-        <div className="p-4 mb-6 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">
-          <span className="font-medium">Error!</span> {errorMessage || "There was a problem sending your message. Please try again or contact directly at " + recipient}
+        <div className="mb-6 rounded-xl border border-red-200/80 bg-red-50/90 p-4 text-sm text-red-900 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-100">
+          <span className="font-semibold">Something went wrong.</span>{" "}
+          {errorMessage ||
+            `Please try again or email ${recipient}`}
         </div>
       )}
-      <form onSubmit={handleSubmit} className="space-y-6">
+
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div>
           <label
             htmlFor="name"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300"
           >
-            Your Name
+            Name
           </label>
           <input
             type="text"
@@ -123,17 +136,17 @@ export default function ContactForm() {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
-            placeholder="John Doe"
+            className={inputClass}
+            placeholder="Your name"
             required
           />
         </div>
         <div>
           <label
             htmlFor="email"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300"
           >
-            Your Email
+            Email
           </label>
           <input
             type="email"
@@ -141,15 +154,15 @@ export default function ContactForm() {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
-            placeholder="name@example.com"
+            className={inputClass}
+            placeholder="you@example.com"
             required
           />
         </div>
         <div>
           <label
             htmlFor="subject"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300"
           >
             Subject
           </label>
@@ -159,17 +172,17 @@ export default function ContactForm() {
             name="subject"
             value={formData.subject}
             onChange={handleChange}
-            className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
-            placeholder="Let me know how I can help you"
+            className={inputClass}
+            placeholder="How can I help?"
             required
           />
         </div>
         <div>
           <label
             htmlFor="message"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300"
           >
-            Your Message
+            Message
           </label>
           <textarea
             id="message"
@@ -177,19 +190,20 @@ export default function ContactForm() {
             value={formData.message}
             onChange={handleChange}
             rows={5}
-            className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            placeholder="Leave a comment..."
+            className={`${inputClass} resize-y min-h-[120px]`}
+            placeholder="Tell me about your project…"
             required
-          ></textarea>
+          />
         </div>
-        <button
+        <motion.button
           type="submit"
           disabled={isSubmitting}
-          className="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
+          whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+          className="btn-shine relative w-full rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 transition hover:from-blue-500 hover:to-indigo-500 disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
         >
-          {isSubmitting ? "Sending..." : "Send Message"}
-        </button>
+          {isSubmitting ? "Sending…" : "Send message"}
+        </motion.button>
       </form>
     </div>
   );
-} 
+}

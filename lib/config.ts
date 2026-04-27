@@ -1,15 +1,17 @@
+import { profile } from '@/data/profile';
+
 // Configuration variables with defaults
 export const config = {
   email: {
-    service: process.env.EMAIL_SERVICE || 'gmail',
-    user: process.env.EMAIL_USER || 'ms0547884@gmail.com',
-    pass: process.env.EMAIL_PASS || '',
-    recipient: process.env.EMAIL_RECIPIENT || 'ms0547884@gmail.com'
+    service: process.env.EMAIL_SERVICE || "gmail",
+    user: process.env.EMAIL_USER || "",
+    pass: process.env.EMAIL_PASS || "",
+    recipient: process.env.EMAIL_RECIPIENT || process.env.EMAIL_USER || "",
   },
   siteMetadata: {
-    title: 'Muhammad Mohsin Saleem | Full Stack Blockchain Developer',
-    description: 'Portfolio of Muhammad Mohsin Saleem, a Full Stack Blockchain Developer specializing in DeFi, NFTs, and Web3 applications',
-    author: 'Muhammad Mohsin Saleem',
+    title: `${profile.name} | ${profile.title}`,
+    description: profile.metaDescription,
+    author: profile.name,
   },
   isProduction: process.env.NODE_ENV === 'production'
 };
@@ -33,9 +35,9 @@ export function isEmailConfigured() {
       console.log('\n📧 EMAIL SETUP REQUIRED 📧');
       console.log('To enable email functionality, create a .env.local file with:');
       console.log('EMAIL_SERVICE=gmail');
-      console.log('EMAIL_USER=ms0547884@gmail.com');
+      console.log('EMAIL_USER=your-email@example.com');
       console.log('EMAIL_PASS=your_gmail_app_password');
-      console.log('EMAIL_RECIPIENT=ms0547884@gmail.com');
+      console.log('EMAIL_RECIPIENT=your-email@example.com');
       console.log('\nFor Gmail, you need an App Password:');
       console.log('1. Go to https://myaccount.google.com/security');
       console.log('2. Enable 2-Step Verification');

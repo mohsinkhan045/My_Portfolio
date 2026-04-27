@@ -24,7 +24,7 @@ Follow these steps to deploy your portfolio to Vercel:
 5. **Set environment variables**
    - Add the following environment variables:
      - `EMAIL_SERVICE`: `gmail`
-     - `EMAIL_USER`: `ms0547884@gmail.com`
+     - `EMAIL_USER`: `mohsinsaleemvr@gmail.com`
      - `EMAIL_PASS`: (your Gmail app password)
      - `NEXT_PUBLIC_SITE_URL`: (your Vercel domain, will be available after first deployment)
 6. **Deploy**

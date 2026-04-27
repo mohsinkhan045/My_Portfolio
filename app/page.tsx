@@ -1,63 +1,76 @@
 import Hero from "@/components/Hero";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
+import { profile } from "@/data/profile";
 import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Muhammad Mohsin Saleem | Full Stack Blockchain Developer",
-  description: "Portfolio of Muhammad Mohsin Saleem, a Full Stack Blockchain Developer specializing in DeFi, NFTs, and Web3 applications.",
+  title: `${profile.name} | ${profile.title}`,
+  description: profile.metaDescription,
   openGraph: {
-    title: "Muhammad Mohsin Saleem | Full Stack Blockchain Developer",
-    description: "Portfolio of Muhammad Mohsin Saleem, a Full Stack Blockchain Developer specializing in DeFi, NFTs, and Web3 applications.",
+    title: `${profile.name} | ${profile.title}`,
+    description: profile.metaDescription,
     type: "website",
   },
 };
 
-// Select featured projects for homepage
 const featuredProjects = [
-  projects.find(p => p.slug === "fry-staking-farming") || projects[0],
-  projects.find(p => p.slug === "fry-market") || projects[1],
-  projects.find(p => p.slug === "cross-chain-dex") || projects[2],
-];
+  projects.find((p) => p.slug === "fry-staking-farming") ?? projects[0],
+  projects.find((p) => p.slug === "fry-market") ?? projects[1],
+  projects.find((p) => p.slug === "impactomoney") ?? projects[2],
+].filter(Boolean);
 
 export default function Home() {
   return (
     <>
       <Hero />
-      
-      <section className="bg-gray-50 dark:bg-gray-800 py-12 sm:py-16">
-        <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-          <div className="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
-            <h2 className="mb-4 text-3xl sm:text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-              Featured Projects
+
+      <section className="relative border-y border-slate-200/80 bg-slate-50/80 py-14 dark:border-slate-800/80 dark:bg-slate-950/40 sm:py-20">
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"
+          aria-hidden
+        />
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="mx-auto mb-12 max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
+              Portfolio
+            </p>
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+              Featured{" "}
+              <span className="text-gradient">Projects</span>
             </h2>
-            <p className="font-light text-gray-500 lg:mb-16 text-sm sm:text-base lg:text-xl dark:text-gray-400">
-              Check out some of my recent blockchain work
+            <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:text-base">
+              A snapshot of recent blockchain work — DeFi, NFTs, and on-chain
+              systems built for scale and security.
             </p>
           </div>
-          <div className="grid gap-6 sm:gap-8 lg:grid-cols-3">
-            {featuredProjects.map((project, index) => (
-              project ? <ProjectCard key={index} {...project} /> : null
-            ))}
+
+          <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {featuredProjects.map((project) =>
+              project ? (
+                <ProjectCard key={project.slug} {...project} />
+              ) : null
+            )}
           </div>
-          <div className="text-center mt-8 sm:mt-12">
+
+          <div className="mt-12 text-center">
             <Link
               href="/projects"
-              className="inline-flex items-center px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="btn-shine relative inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 transition hover:from-blue-500 hover:to-indigo-500 sm:text-base"
             >
               View All Projects
               <svg
-                className="w-4 h-4 sm:w-5 sm:h-5 ml-2 -mr-1"
+                className="ml-2 h-4 w-4 sm:h-5 sm:w-5"
                 fill="currentColor"
                 viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden
               >
                 <path
                   fillRule="evenodd"
                   d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
                   clipRule="evenodd"
-                ></path>
+                />
               </svg>
             </Link>
           </div>

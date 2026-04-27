@@ -11,7 +11,7 @@ Create a file named `.env.local` in the root directory of your project with the 
 ```env
 EMAIL_SERVICE=gmail
 EMAIL_USER=ms0547884@gmail.com
-EMAIL_PASS=lvas myzl tfra pjzv
+EMAIL_PASS=your_16_char_app_password
 EMAIL_RECIPIENT=ms0547884@gmail.com
 ```
 
@@ -37,7 +37,7 @@ npm run dev
 1. Go to your contact page
 2. Fill out the form
 3. Submit the form
-4. Check your email (ms0547884@gmail.com) for the message
+4. Check your inbox (same as `EMAIL_RECIPIENT`) for the message
 
 ## Troubleshooting
 
