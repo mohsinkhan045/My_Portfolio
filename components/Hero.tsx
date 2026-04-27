@@ -19,7 +19,7 @@ export default function Hero() {
 
       <section className="relative">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-10 sm:gap-12 sm:px-6 sm:py-14 lg:grid-cols-12 lg:gap-14 lg:py-20">
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 text-center lg:text-left">
             <div className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-blue-200/80 bg-white/80 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-blue-700 shadow-sm backdrop-blur dark:border-blue-500/30 dark:bg-slate-900/70 dark:text-blue-300 sm:text-xs">
               <span className="relative flex h-2 w-2 shrink-0">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
@@ -56,7 +56,7 @@ export default function Hero() {
               </Link>
             </div>
 
-            <dl className="mt-10 grid max-w-lg grid-cols-3 gap-3 border-t border-slate-200/80 pt-8 dark:border-slate-800">
+            <dl className="mt-10 grid max-w-lg grid-cols-1 gap-4 border-t border-slate-200/80 pt-8 dark:border-slate-800 sm:grid-cols-3 sm:gap-3">
               {profile.stats.map(({ value, label }) => (
                 <div key={label} className="text-center sm:text-left">
                   <dt className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-500 sm:text-xs">
