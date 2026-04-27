@@ -5,8 +5,12 @@ import { projects } from "@/data/projects";
 import { Metadata } from "next";
 
 type PageProps = {
+  /**
+   * Next.js 15 app-router types expose `params` / `searchParams` as Promises in `.next/types`.
+   * Keep them as Promises to satisfy the generated `PageProps` constraint during `next build`.
+   */
   params: Promise<{ slug: string }>;
-  searchParams: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
 export async function generateStaticParams() {
