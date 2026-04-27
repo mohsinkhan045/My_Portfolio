@@ -85,7 +85,7 @@ export default function Hero() {
                 transition={{ type: "spring", stiffness: 260, damping: 22 }}
               >
                 <Image
-                  src="/images/mohsin-portrait.png"
+                  src="/images/Mohsin.jpeg"
                   alt={`${profile.name} — ${profile.title}`}
                   fill
                   className="object-cover"
